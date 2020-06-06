@@ -30,7 +30,16 @@ const styles = StyleSheet.create({
 
   footer: {},
 
-  select: {},
+  select: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 60,
+    borderRadius: 10,
+    marginVertical: 8,
+    paddingLeft: 16,
+    paddingRight: 8,
+    backgroundColor: '#FFF',
+  },
 
   input: {
     height: 60,
@@ -54,6 +63,8 @@ const styles = StyleSheet.create({
   buttonIcon: {
     height: 60,
     width: 60,
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
     justifyContent: 'center',
     alignItems: 'center'
