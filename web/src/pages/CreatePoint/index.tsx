@@ -8,8 +8,9 @@ import axios from 'axios'
 import api from '../../services/api'
 import logo from '../../assets/logo.svg'
 
+import Dropzone from '../../components/Dropzone'
+
 import './styles.css'
-import { findAllByTitle } from '@testing-library/react'
 
 interface ItemProps {
   id: number,
@@ -44,6 +45,7 @@ const CreatePoint = () => {
   const [selectedCity, setSelectedCity] = useState('0')
   const [selectedItems, setSelectedItems] = useState<number[]>([])
   const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0])
+  const [selectedFile, setSelectedFile] = useState<File>()
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(position => {
@@ -127,15 +129,19 @@ const CreatePoint = () => {
     const [latitude, longitude] = selectedPosition
     const items = selectedItems
 
-    const submitData = {
-      name,
-      email,
-      whatsapp,
-      uf,
-      city,
-      latitude,
-      longitude,
-      items
+    const submitData = new FormData()
+
+    submitData.append('name', name)
+    submitData.append('email', email)
+    submitData.append('whatsapp', whatsapp)
+    submitData.append('uf', uf)
+    submitData.append('city', city)
+    submitData.append('latitude', String(latitude))
+    submitData.append('longitude', String(longitude))
+    submitData.append('items', items.join(','))
+
+    if (selectedFile) {
+      submitData.append('image', selectedFile)
     }
 
     await api.post('points', submitData)
@@ -158,6 +164,8 @@ const CreatePoint = () => {
 
       <form onSubmit={handleSubmit}>
         <h1>Cadastro do <br /> ponto de coleta </h1>
+
+        <Dropzone onFileUploaded={setSelectedFile} />
 
         <fieldset>
           <legend>
