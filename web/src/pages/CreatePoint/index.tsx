@@ -9,6 +9,10 @@ import api from '../../services/api'
 import logo from '../../assets/logo.svg'
 
 import Dropzone from '../../components/Dropzone'
+import InputText from '../../components/InputText'
+import SelectBox from '../../components/SelectBox'
+import ItemCard from '../../components/ItemCard'
+import ActionButton from '../../components/ActionButton'
 
 import './styles.css'
 
@@ -41,8 +45,11 @@ const CreatePoint = () => {
     whatsapp: ''
   })
 
-  const [selectedUf, setSelectedUf] = useState('0')
-  const [selectedCity, setSelectedCity] = useState('0')
+  const [selectedData, setSelectedData] = useState({
+    uf: '',
+    city: ''
+  })
+
   const [selectedItems, setSelectedItems] = useState<number[]>([])
   const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0])
   const [selectedFile, setSelectedFile] = useState<File>()
@@ -71,35 +78,32 @@ const CreatePoint = () => {
   }, [])
 
   useEffect(() => {
-    if(selectedUf === '0') {
+    if(selectedData.uf === '0') {
       return
     }
 
-    axios.get<IBGECityResponse[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios`)
+    axios.get<IBGECityResponse[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedData.uf}/municipios`)
       .then(response => {
         const citiesFromSpecificUf = response.data.map(city => city.nome)
 
         setCities(citiesFromSpecificUf)
       })
-  }, [selectedUf])
-
-  function handleSelectUf(event: ChangeEvent<HTMLSelectElement>) {
-    const uf = event.target.value
-
-    setSelectedUf(uf)
-  }
-
-  function handleSelectCity(event: ChangeEvent<HTMLSelectElement>) {
-    const city = event.target.value
-
-    setSelectedCity(city)
-  }
+  }, [selectedData.uf])
 
   function handleMapClick(event: LeafletMouseEvent) {
     setSelectedPosition([
       event.latlng.lat,
       event.latlng.lng
     ])
+  }
+
+  function handleSelectData(event: ChangeEvent<HTMLSelectElement>) {
+    const { name, value } = event.target
+
+    setSelectedData({
+      ...selectedData,
+      [name]: value
+    })
   }
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
@@ -124,8 +128,8 @@ const CreatePoint = () => {
     event.preventDefault()
 
     const { name, email, whatsapp } = formData
-    const uf = selectedUf
-    const city = selectedCity
+    const uf = selectedData.uf
+    const city = selectedData.city
     const [latitude, longitude] = selectedPosition
     const items = selectedItems
 
@@ -172,42 +176,30 @@ const CreatePoint = () => {
             <h2>Dados</h2>
           </legend>
 
-          <div className="field">
-            <label htmlFor="name">Nome da entidade</label>
-
-            <input
-              type="text"
-              name="name"
-              id="name"
-              value={formData.name}
-              onChange={handleInputChange}
-            />
-          </div>
+          <InputText
+            labelWord="Nome da entidade"
+            typingExample=""
+            htmlPropsName="name"
+            inputValue={formData.name}
+            onHandleChange={handleInputChange}
+          />
 
           <div className="field-group">
-            <div className="field">
-              <label htmlFor="email">E-mail</label>
+            <InputText
+              labelWord="E-mail"
+              typingExample="example@domain.com"
+              htmlPropsName="email"
+              inputValue={formData.email}
+              onHandleChange={handleInputChange}
+            />
 
-              <input
-                type="text"
-                name="email"
-                id="email"
-                value={formData.email}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="field">
-              <label htmlFor="whatsapp">Número do Whatsapp</label>
-
-              <input
-                type="text"
-                name="whatsapp"
-                id="whatsapp"
-                value={formData.whatsapp}
-                onChange={handleInputChange}
-              />
-            </div>
+            <InputText
+              labelWord="Número de WhatsApp"
+              typingExample="(XX) X XXXX-XXXX"
+              htmlPropsName="whatsapp"
+              inputValue={formData.whatsapp}
+              onHandleChange={handleInputChange}
+            />
           </div>
         </fieldset>
 
@@ -232,37 +224,23 @@ const CreatePoint = () => {
           </Map>
 
           <div className="field-group">
-            <div className="field">
-              <label htmlFor="uf">Estado (UF)</label>
+            <SelectBox
+              labelWord="Estado (UF)"
+              htmlPropsName="uf"
+              description="Selecione uma UF"
+              selectValue={selectedData.uf}
+              optionsData={ufs}
+              onHandleSelect={handleSelectData}
+            />
 
-              <select
-                name="uf"
-                id="uf"
-                value={selectedUf}
-                onChange={handleSelectUf}
-              >
-                <option value="0">Selecione uma UF</option>
-                {ufs.map(uf => (
-                  <option key={uf} value={uf}>{uf}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="field">
-              <label htmlFor="city">Cidade</label>
-
-              <select
-                name="city"
-                id="city"
-                value={selectedCity}
-                onChange={handleSelectCity}
-              >
-                <option value="0">Selecione uma cidade</option>
-                {cities.map(city => (
-                  <option key={city} value={city}>{city}</option>
-                ))}
-              </select>
-            </div>
+            <SelectBox
+              labelWord="Cidade"
+              htmlPropsName="city"
+              description="Selecione uma cidade"
+              selectValue={selectedData.city}
+              optionsData={cities}
+              onHandleSelect={handleSelectData}
+            />
           </div>
         </fieldset>
 
@@ -275,21 +253,17 @@ const CreatePoint = () => {
 
           <ul className="items-grid">
             {items.map(item => (
-                <li
+                <ItemCard
                   key={item.id}
-                  onClick={() => handleSelectItem(item.id)}
-                  className={selectedItems.includes(item.id) ? 'selected' : ''}
-                >
-                  <img src={item.image_url} alt={item.title} />
-                  <span>{item.title}</span>
-                </li>
+                  cardData={item}
+                  selectedCards={selectedItems}
+                  onHandleSelect={() => handleSelectItem(item.id)}
+                />
               ))}
           </ul>
         </fieldset>
 
-        <button type="submit">
-          Cadastrar ponto de coleta
-        </button>
+        <ActionButton buttonPlaceholder="Cadastrar o ponto de coleta"/>
       </form>
     </div>
   );

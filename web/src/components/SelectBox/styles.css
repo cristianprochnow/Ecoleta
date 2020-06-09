@@ -1,0 +1,36 @@
+.field {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+
+.field select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  flex: 1;
+  background: #F0F0F5;
+  border-radius: 8px;
+  border: 0;
+  padding: 16px 24px;
+  font-size: 16px;
+  transition: all ease-in 0.2s;
+  color: #6C6C80;
+}
+
+.field select:hover {
+  filter: brightness(0.9);
+}
+
+.field label {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.field:disabled {
+  cursor: not-allowed;
+}
