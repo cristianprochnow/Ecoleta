@@ -12,6 +12,7 @@ import Dropzone from '../../components/Dropzone'
 import InputText from '../../components/InputText'
 import SelectBox from '../../components/SelectBox'
 import ItemCard from '../../components/ItemCard'
+import ActionButton from '../../components/ActionButton'
 
 import './styles.css'
 
@@ -262,9 +263,7 @@ const CreatePoint = () => {
           </ul>
         </fieldset>
 
-        <button type="submit">
-          Cadastrar ponto de coleta
-        </button>
+        <ActionButton buttonPlaceholder="Cadastrar o ponto de coleta"/>
       </form>
     </div>
   );

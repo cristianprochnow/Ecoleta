@@ -99,25 +99,6 @@
   margin-bottom: 24px;
 }
 
-#page-create-point form button {
-  width: 260px;
-  height: 56px;
-  background: var(--primary-color);
-  border-radius: 8px;
-  color: #FFF;
-  font-weight: bold;
-  font-size: 16px;
-  border: 0;
-  align-self: flex-end;
-  margin-top: 40px;
-  transition: background-color 0.2s;
-  cursor: pointer;
-}
-
-#page-create-point form button:hover {
-  background: #2FB86E;
-}
-
 .items-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
