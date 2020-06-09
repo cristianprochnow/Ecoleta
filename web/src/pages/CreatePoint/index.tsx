@@ -9,6 +9,7 @@ import api from '../../services/api'
 import logo from '../../assets/logo.svg'
 
 import Dropzone from '../../components/Dropzone'
+import InputText from '../../components/InputText'
 
 import './styles.css'
 
@@ -106,6 +107,8 @@ const CreatePoint = () => {
     const { name, value } = event.target
 
     setFormData({ ...formData, [name]: value })
+
+    console.log(formData)
   }
 
   function handleSelectItem(id: number) {
@@ -172,42 +175,33 @@ const CreatePoint = () => {
             <h2>Dados</h2>
           </legend>
 
-          <div className="field">
-            <label htmlFor="name">Nome da entidade</label>
-
-            <input
-              type="text"
-              name="name"
-              id="name"
-              value={formData.name}
-              onChange={handleInputChange}
-            />
-          </div>
+          <InputText
+            containerClass="field"
+            labelWord="Nome da entidade"
+            typingExample=""
+            htmlPropsName="name"
+            inputValue={formData.name}
+            onHandleChange={handleInputChange}
+          />
 
           <div className="field-group">
-            <div className="field">
-              <label htmlFor="email">E-mail</label>
+            <InputText
+              containerClass="field"
+              labelWord="E-mail"
+              typingExample="example@domain.com"
+              htmlPropsName="email"
+              inputValue={formData.email}
+              onHandleChange={handleInputChange}
+            />
 
-              <input
-                type="text"
-                name="email"
-                id="email"
-                value={formData.email}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="field">
-              <label htmlFor="whatsapp">Número do Whatsapp</label>
-
-              <input
-                type="text"
-                name="whatsapp"
-                id="whatsapp"
-                value={formData.whatsapp}
-                onChange={handleInputChange}
-              />
-            </div>
+            <InputText
+              containerClass="field"
+              labelWord="Número de WhatsApp"
+              typingExample="(XX) X XXXX-XXXX"
+              htmlPropsName="whatsapp"
+              inputValue={formData.whatsapp}
+              onHandleChange={handleInputChange}
+            />
           </div>
         </fieldset>
 
