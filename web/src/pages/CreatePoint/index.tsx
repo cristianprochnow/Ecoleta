@@ -11,6 +11,7 @@ import logo from '../../assets/logo.svg'
 import Dropzone from '../../components/Dropzone'
 import InputText from '../../components/InputText'
 import SelectBox from '../../components/SelectBox'
+import ItemCard from '../../components/ItemCard'
 
 import './styles.css'
 
@@ -43,8 +44,11 @@ const CreatePoint = () => {
     whatsapp: ''
   })
 
-  const [selectedUf, setSelectedUf] = useState('0')
-  const [selectedCity, setSelectedCity] = useState('0')
+  const [selectedData, setSelectedData] = useState({
+    uf: '',
+    city: ''
+  })
+
   const [selectedItems, setSelectedItems] = useState<number[]>([])
   const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0, 0])
   const [selectedFile, setSelectedFile] = useState<File>()
@@ -73,37 +77,32 @@ const CreatePoint = () => {
   }, [])
 
   useEffect(() => {
-    if(selectedUf === '0') {
+    if(selectedData.uf === '0') {
       return
     }
 
-    axios.get<IBGECityResponse[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios`)
+    axios.get<IBGECityResponse[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedData.uf}/municipios`)
       .then(response => {
         const citiesFromSpecificUf = response.data.map(city => city.nome)
 
         setCities(citiesFromSpecificUf)
       })
-  }, [selectedUf])
-
-  function handleSelectUf(event: ChangeEvent<HTMLSelectElement>) {
-    const uf = event.target.value
-
-    setSelectedUf(uf)
-
-    console.log(selectedUf)
-  }
-
-  function handleSelectCity(event: ChangeEvent<HTMLSelectElement>) {
-    const city = event.target.value
-
-    setSelectedCity(city)
-  }
+  }, [selectedData.uf])
 
   function handleMapClick(event: LeafletMouseEvent) {
     setSelectedPosition([
       event.latlng.lat,
       event.latlng.lng
     ])
+  }
+
+  function handleSelectData(event: ChangeEvent<HTMLSelectElement>) {
+    const { name, value } = event.target
+
+    setSelectedData({
+      ...selectedData,
+      [name]: value
+    })
   }
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
@@ -128,8 +127,8 @@ const CreatePoint = () => {
     event.preventDefault()
 
     const { name, email, whatsapp } = formData
-    const uf = selectedUf
-    const city = selectedCity
+    const uf = selectedData.uf
+    const city = selectedData.city
     const [latitude, longitude] = selectedPosition
     const items = selectedItems
 
@@ -228,18 +227,18 @@ const CreatePoint = () => {
               labelWord="Estado (UF)"
               htmlPropsName="uf"
               description="Selecione uma UF"
-              selectValue={selectedUf}
+              selectValue={selectedData.uf}
               optionsData={ufs}
-              onHandleSelect={handleSelectUf}
+              onHandleSelect={handleSelectData}
             />
 
             <SelectBox
               labelWord="Cidade"
               htmlPropsName="city"
               description="Selecione uma cidade"
-              selectValue={selectedCity}
+              selectValue={selectedData.city}
               optionsData={cities}
-              onHandleSelect={handleSelectCity}
+              onHandleSelect={handleSelectData}
             />
           </div>
         </fieldset>
@@ -253,14 +252,12 @@ const CreatePoint = () => {
 
           <ul className="items-grid">
             {items.map(item => (
-                <li
+                <ItemCard
                   key={item.id}
-                  onClick={() => handleSelectItem(item.id)}
-                  className={selectedItems.includes(item.id) ? 'selected' : ''}
-                >
-                  <img src={item.image_url} alt={item.title} />
-                  <span>{item.title}</span>
-                </li>
+                  cardData={item}
+                  selectedCards={selectedItems}
+                  onHandleSelect={() => handleSelectItem(item.id)}
+                />
               ))}
           </ul>
         </fieldset>
