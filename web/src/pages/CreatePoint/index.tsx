@@ -10,6 +10,7 @@ import logo from '../../assets/logo.svg'
 
 import Dropzone from '../../components/Dropzone'
 import InputText from '../../components/InputText'
+import SelectBox from '../../components/SelectBox'
 
 import './styles.css'
 
@@ -88,6 +89,8 @@ const CreatePoint = () => {
     const uf = event.target.value
 
     setSelectedUf(uf)
+
+    console.log(selectedUf)
   }
 
   function handleSelectCity(event: ChangeEvent<HTMLSelectElement>) {
@@ -107,8 +110,6 @@ const CreatePoint = () => {
     const { name, value } = event.target
 
     setFormData({ ...formData, [name]: value })
-
-    console.log(formData)
   }
 
   function handleSelectItem(id: number) {
@@ -176,7 +177,6 @@ const CreatePoint = () => {
           </legend>
 
           <InputText
-            containerClass="field"
             labelWord="Nome da entidade"
             typingExample=""
             htmlPropsName="name"
@@ -186,7 +186,6 @@ const CreatePoint = () => {
 
           <div className="field-group">
             <InputText
-              containerClass="field"
               labelWord="E-mail"
               typingExample="example@domain.com"
               htmlPropsName="email"
@@ -195,7 +194,6 @@ const CreatePoint = () => {
             />
 
             <InputText
-              containerClass="field"
               labelWord="Número de WhatsApp"
               typingExample="(XX) X XXXX-XXXX"
               htmlPropsName="whatsapp"
@@ -226,37 +224,23 @@ const CreatePoint = () => {
           </Map>
 
           <div className="field-group">
-            <div className="field">
-              <label htmlFor="uf">Estado (UF)</label>
+            <SelectBox
+              labelWord="Estado (UF)"
+              htmlPropsName="uf"
+              description="Selecione uma UF"
+              selectValue={selectedUf}
+              optionsData={ufs}
+              onHandleSelect={handleSelectUf}
+            />
 
-              <select
-                name="uf"
-                id="uf"
-                value={selectedUf}
-                onChange={handleSelectUf}
-              >
-                <option value="0">Selecione uma UF</option>
-                {ufs.map(uf => (
-                  <option key={uf} value={uf}>{uf}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="field">
-              <label htmlFor="city">Cidade</label>
-
-              <select
-                name="city"
-                id="city"
-                value={selectedCity}
-                onChange={handleSelectCity}
-              >
-                <option value="0">Selecione uma cidade</option>
-                {cities.map(city => (
-                  <option key={city} value={city}>{city}</option>
-                ))}
-              </select>
-            </div>
+            <SelectBox
+              labelWord="Cidade"
+              htmlPropsName="city"
+              description="Selecione uma cidade"
+              selectValue={selectedCity}
+              optionsData={cities}
+              onHandleSelect={handleSelectCity}
+            />
           </div>
         </fieldset>
 

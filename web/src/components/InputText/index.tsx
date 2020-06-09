@@ -3,7 +3,6 @@ import React, { ChangeEvent } from 'react'
 import './styles.css'
 
 interface InputTextProps {
-  containerClass: string
   labelWord: string
   htmlPropsName: string
   typingExample: string
@@ -12,7 +11,6 @@ interface InputTextProps {
 }
 
 const InputText: React.FC<InputTextProps> = ({
-  containerClass = "field",
   labelWord = "",
   htmlPropsName = "input",
   typingExample = null,
@@ -20,7 +18,7 @@ const InputText: React.FC<InputTextProps> = ({
   onHandleChange
 }) => {
   return (
-    <div className={containerClass}>
+    <div className="field">
       <label htmlFor={htmlPropsName}>{labelWord}</label>
 
       <input

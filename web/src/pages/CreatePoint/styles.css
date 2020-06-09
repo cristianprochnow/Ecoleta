@@ -71,42 +71,6 @@
   display: flex;
 }
 
-#page-create-point form .field {
-
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 24px;
-}
-
-#page-create-point form .field select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  cursor: pointer;
-  flex: 1;
-  background: #F0F0F5;
-  border-radius: 8px;
-  border: 0;
-  padding: 16px 24px;
-  font-size: 16px;
-  transition: all ease-in 0.2s;
-  color: #6C6C80;
-}
-
-#page-create-point form .field select:hover {
-  filter: brightness(0.9);
-}
-
-#page-create-point form .field label {
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-#page-create-point form .field:disabled {
-  cursor: not-allowed;
-}
-
 #page-create-point form .field-group .field + .field {
   margin-left: 24px;
 }
