@@ -1,4 +1,4 @@
-button {
+button[type="submit"] {
   width: 260px;
   height: 56px;
   background: var(--primary-color);
@@ -13,6 +13,6 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+button[type="submit"]:hover {
   background: #2FB86E;
 }

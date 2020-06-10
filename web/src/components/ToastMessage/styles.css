@@ -1,0 +1,64 @@
+:root {
+  --success-color: #4AA254;
+  --warning-color: #DF954C;
+  --danger-color: #C74245;
+  --info-color: #3DABC6;
+}
+
+.toast {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 50%;
+
+  padding: 24px;
+  margin-left: -240px;
+  margin-top: 48px;
+  width: 480px;
+
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.toast h1 {
+  color: rgba(255, 255, 255, 1);
+}
+
+.toast p {
+  padding: 8px 0;
+
+  color: rgba(255, 255, 255, 0.8)
+}
+
+.toast button {
+  padding: 12px 32px;
+  margin-top: 16px;
+
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+
+  font-weight: 700;
+  font-size: 16px;
+
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.success {
+  background-color: var(--success-color);
+}
+
+.warning {
+  background-color: var(--warning-color);
+}
+
+.danger {
+  background-color: var(--danger-color);
+}
+
+.info {
+  background-color: var(--info-color);
+}
+
+.disabled {
+  display: none;
+}
