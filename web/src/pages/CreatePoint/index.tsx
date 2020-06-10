@@ -13,6 +13,7 @@ import InputText from '../../components/InputText'
 import SelectBox from '../../components/SelectBox'
 import ItemCard from '../../components/ItemCard'
 import ActionButton from '../../components/ActionButton'
+import ToastMessage from '../../components/ToastMessage'
 
 import './styles.css'
 
@@ -32,6 +33,8 @@ interface IBGECityResponse {
 
 const CreatePoint = () => {
   const history = useHistory()
+
+  const [isEnabledMessage, setEnabledMessage] = useState(false)
 
   const [items, setItems] = useState<ItemProps[]>([])
   const [ufs, setUfs] = useState<string[]>([])
@@ -127,145 +130,163 @@ const CreatePoint = () => {
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
-    const { name, email, whatsapp } = formData
-    const uf = selectedData.uf
-    const city = selectedData.city
-    const [latitude, longitude] = selectedPosition
-    const items = selectedItems
+    setEnabledMessage(true)
+    await setTimeout( () => setEnabledMessage(false), 5000 )
 
-    const submitData = new FormData()
+    setTimeout( () => history.push('/'), 2500 )
 
-    submitData.append('name', name)
-    submitData.append('email', email)
-    submitData.append('whatsapp', whatsapp)
-    submitData.append('uf', uf)
-    submitData.append('city', city)
-    submitData.append('latitude', String(latitude))
-    submitData.append('longitude', String(longitude))
-    submitData.append('items', items.join(','))
+    // const { name, email, whatsapp } = formData
+    // const uf = selectedData.uf
+    // const city = selectedData.city
+    // const [latitude, longitude] = selectedPosition
+    // const items = selectedItems
 
-    if (selectedFile) {
-      submitData.append('image', selectedFile)
-    }
+    // const submitData = new FormData()
 
-    await api.post('points', submitData)
+    // submitData.append('name', name)
+    // submitData.append('email', email)
+    // submitData.append('whatsapp', whatsapp)
+    // submitData.append('uf', uf)
+    // submitData.append('city', city)
+    // submitData.append('latitude', String(latitude))
+    // submitData.append('longitude', String(longitude))
+    // submitData.append('items', items.join(','))
 
-    alert('Ponto de coleta cadastrado com sucesso!')
+    // if (selectedFile) {
+    //   submitData.append('image', selectedFile)
+    // }
 
-    history.push('/')
+    // const submitDataResponse = await api.post('points', submitData)
+
+    // if (submitDataResponse) {
+    //   alert('Ponto de coleta cadastrado com sucesso!')
+
+    //   history.push('/')
+    // } else {
+    //   alert('Deu ruim.')
+    // }
   }
 
   return(
-    <div id="page-create-point">
-      <header>
-        <img src={logo} alt="Ecoleta" />
+    <>
+      <ToastMessage
+        isEnabled={isEnabledMessage}
+        type="success"
+        title="Ponto de coleta cadastrado!"
+        description="Redirecionando para a página inicial..."
+      />
 
-        <Link to="/">
-          <FiArrowLeft />
-          Voltar para a home
-        </Link>
-      </header>
+      <div id="page-create-point">
+        <header>
+          <img src={logo} alt="Ecoleta" />
 
-      <form onSubmit={handleSubmit}>
-        <h1>Cadastro do <br /> ponto de coleta </h1>
+          <Link to="/">
+            <FiArrowLeft />
+            Voltar para a home
+          </Link>
+        </header>
 
-        <Dropzone onFileUploaded={setSelectedFile} />
+        <form onSubmit={handleSubmit}>
+          <h1>Cadastro do <br /> ponto de coleta </h1>
 
-        <fieldset>
-          <legend>
-            <h2>Dados</h2>
-          </legend>
+          <Dropzone onFileUploaded={setSelectedFile} />
 
-          <InputText
-            labelWord="Nome da entidade"
-            typingExample=""
-            htmlPropsName="name"
-            inputValue={formData.name}
-            onHandleChange={handleInputChange}
-          />
+          <fieldset>
+            <legend>
+              <h2>Dados</h2>
+            </legend>
 
-          <div className="field-group">
             <InputText
-              labelWord="E-mail"
-              typingExample="example@domain.com"
-              htmlPropsName="email"
-              inputValue={formData.email}
+              labelWord="Nome da entidade"
+              typingExample=""
+              htmlPropsName="name"
+              inputValue={formData.name}
               onHandleChange={handleInputChange}
             />
 
-            <InputText
-              labelWord="Número de WhatsApp"
-              typingExample="(XX) X XXXX-XXXX"
-              htmlPropsName="whatsapp"
-              inputValue={formData.whatsapp}
-              onHandleChange={handleInputChange}
-            />
-          </div>
-        </fieldset>
+            <div className="field-group">
+              <InputText
+                labelWord="E-mail"
+                typingExample="example@domain.com"
+                htmlPropsName="email"
+                inputValue={formData.email}
+                onHandleChange={handleInputChange}
+              />
 
-        <fieldset>
-          <legend>
-            <h2>Endereço</h2>
+              <InputText
+                labelWord="Número de WhatsApp"
+                typingExample="(XX) X XXXX-XXXX"
+                htmlPropsName="whatsapp"
+                inputValue={formData.whatsapp}
+                onHandleChange={handleInputChange}
+              />
+            </div>
+          </fieldset>
 
-            <span>Selecione o endereço no mapa</span>
-          </legend>
+          <fieldset>
+            <legend>
+              <h2>Endereço</h2>
 
-          <Map
-            center={initialPosition}
-            zoom={15}
-            onclick={handleMapClick}
-          >
-            <TileLayer
-              attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
+              <span>Selecione o endereço no mapa</span>
+            </legend>
 
-            <Marker position={selectedPosition} />
-          </Map>
+            <Map
+              center={initialPosition}
+              zoom={15}
+              onclick={handleMapClick}
+            >
+              <TileLayer
+                attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
 
-          <div className="field-group">
-            <SelectBox
-              labelWord="Estado (UF)"
-              htmlPropsName="uf"
-              description="Selecione uma UF"
-              selectValue={selectedData.uf}
-              optionsData={ufs}
-              onHandleSelect={handleSelectData}
-            />
+              <Marker position={selectedPosition} />
+            </Map>
 
-            <SelectBox
-              labelWord="Cidade"
-              htmlPropsName="city"
-              description="Selecione uma cidade"
-              selectValue={selectedData.city}
-              optionsData={cities}
-              onHandleSelect={handleSelectData}
-            />
-          </div>
-        </fieldset>
+            <div className="field-group">
+              <SelectBox
+                labelWord="Estado (UF)"
+                htmlPropsName="uf"
+                description="Selecione uma UF"
+                selectValue={selectedData.uf}
+                optionsData={ufs}
+                onHandleSelect={handleSelectData}
+              />
 
-        <fieldset>
-          <legend>
-            <h2>Itens para coleta</h2>
+              <SelectBox
+                labelWord="Cidade"
+                htmlPropsName="city"
+                description="Selecione uma cidade"
+                selectValue={selectedData.city}
+                optionsData={cities}
+                onHandleSelect={handleSelectData}
+              />
+            </div>
+          </fieldset>
 
-            <span>Selecione um ou mais itens abaixo</span>
-          </legend>
+          <fieldset>
+            <legend>
+              <h2>Itens para coleta</h2>
 
-          <ul className="items-grid">
-            {items.map(item => (
-                <ItemCard
-                  key={item.id}
-                  cardData={item}
-                  selectedCards={selectedItems}
-                  onHandleSelect={() => handleSelectItem(item.id)}
-                />
-              ))}
-          </ul>
-        </fieldset>
+              <span>Selecione um ou mais itens abaixo</span>
+            </legend>
 
-        <ActionButton buttonPlaceholder="Cadastrar o ponto de coleta"/>
-      </form>
-    </div>
+            <ul className="items-grid">
+              {items.map(item => (
+                  <ItemCard
+                    key={item.id}
+                    cardData={item}
+                    selectedCards={selectedItems}
+                    onHandleSelect={() => handleSelectItem(item.id)}
+                  />
+                ))}
+            </ul>
+          </fieldset>
+
+          <ActionButton buttonPlaceholder="Cadastrar o ponto de coleta"/>
+        </form>
+      </div>
+    </>
   );
 }
 
