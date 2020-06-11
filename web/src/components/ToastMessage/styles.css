@@ -45,18 +45,34 @@
 
 .success {
   background-color: var(--success-color);
+  background-image: url('./assets/check-circle.svg');
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .warning {
   background-color: var(--warning-color);
+  background-image: url('./assets/alert-triangle.svg');
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .danger {
   background-color: var(--danger-color);
+  background-image: url('./assets/alert-circle.svg');
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .info {
   background-color: var(--info-color);
+  background-image: url('./assets/info.svg');
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .disabled {
