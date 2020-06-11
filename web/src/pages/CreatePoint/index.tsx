@@ -31,10 +31,18 @@ interface IBGECityResponse {
   nome: string
 }
 
+interface IsEnabledState {
+  isEnabled: boolean
+  messageType: string
+}
+
 const CreatePoint = () => {
   const history = useHistory()
 
-  const [isEnabledMessage, setEnabledMessage] = useState(false)
+  const [isEnabledMessage, setEnabledMessage] = useState<IsEnabledState>({
+    isEnabled: false,
+    messageType: ''
+  })
 
   const [items, setItems] = useState<ItemProps[]>([])
   const [ufs, setUfs] = useState<string[]>([])
@@ -130,48 +138,57 @@ const CreatePoint = () => {
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
-    setEnabledMessage(true)
-    // await setTimeout( () => setEnabledMessage(false), 4000 )
+    const { name, email, whatsapp } = formData
+    const uf = selectedData.uf
+    const city = selectedData.city
+    const [latitude, longitude] = selectedPosition
+    const items = selectedItems
 
-    // setTimeout( () => history.push('/'), 3500 )
+    const submitData = new FormData()
 
-    // const { name, email, whatsapp } = formData
-    // const uf = selectedData.uf
-    // const city = selectedData.city
-    // const [latitude, longitude] = selectedPosition
-    // const items = selectedItems
+    submitData.append('name', name)
+    submitData.append('email', email)
+    submitData.append('whatsapp', whatsapp)
+    submitData.append('uf', uf)
+    submitData.append('city', city)
+    submitData.append('latitude', String(latitude))
+    submitData.append('longitude', String(longitude))
+    submitData.append('items', items.join(','))
 
-    // const submitData = new FormData()
+    if (selectedFile) {
+      submitData.append('image', selectedFile)
+    }
 
-    // submitData.append('name', name)
-    // submitData.append('email', email)
-    // submitData.append('whatsapp', whatsapp)
-    // submitData.append('uf', uf)
-    // submitData.append('city', city)
-    // submitData.append('latitude', String(latitude))
-    // submitData.append('longitude', String(longitude))
-    // submitData.append('items', items.join(','))
+    const submitDataResponse = await api.post('points', submitData)
 
-    // if (selectedFile) {
-    //   submitData.append('image', selectedFile)
-    // }
+    if (submitDataResponse) {
+      setEnabledMessage({
+        isEnabled: true,
+        messageType: 'success'
+      })
+      await setTimeout( () => setEnabledMessage({
+        isEnabled: false,
+        messageType: ''
+      }), 4000 )
 
-    // const submitDataResponse = await api.post('points', submitData)
-
-    // if (submitDataResponse) {
-    //   alert('Ponto de coleta cadastrado com sucesso!')
-
-    //   history.push('/')
-    // } else {
-    //   alert('Deu ruim.')
-    // }
+      setTimeout( () => history.push('/'), 3000 )
+    } else {
+      setEnabledMessage({
+        isEnabled: true,
+        messageType: 'danger'
+      })
+      await setTimeout( () => setEnabledMessage({
+        isEnabled: false,
+        messageType: ''
+      }), 4000 )
+    }
   }
 
   return(
     <>
       <ToastMessage
-        isEnabled={isEnabledMessage}
-        type="success"
+        isEnabled={isEnabledMessage.isEnabled}
+        type={isEnabledMessage.messageType}
         title="Ponto de coleta cadastrado!"
         description="Redirecionando para a página inicial..."
       />
