@@ -131,9 +131,9 @@ const CreatePoint = () => {
     event.preventDefault()
 
     setEnabledMessage(true)
-    await setTimeout( () => setEnabledMessage(false), 5000 )
+    // await setTimeout( () => setEnabledMessage(false), 4000 )
 
-    setTimeout( () => history.push('/'), 2500 )
+    // setTimeout( () => history.push('/'), 3500 )
 
     // const { name, email, whatsapp } = formData
     // const uf = selectedData.uf
