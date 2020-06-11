@@ -1,9 +1,13 @@
 import { Request, Response } from 'express'
+
 import knex from '../database/connection'
+import getLocalIPAdress from '../utils/getLocalIPAddress'
 
 class PointsController {
   async index(request: Request, response: Response) {
     const { city, uf, items } = request.query
+
+    const myIPAdress = getLocalIPAdress()
 
     const parsedItems = String(items)
       .split(',')
@@ -20,7 +24,7 @@ class PointsController {
     const serializedPoints = points.map(point => {
       return {
         ...point,
-        image_url: `http://192.168.2.4:3333/uploads/${point.image}`
+        image_url: `http://${myIPAdress}:3333/uploads/${point.image}`
       }
     })
 
@@ -30,6 +34,8 @@ class PointsController {
   async show(request: Request, response: Response) {
     const { id } = request.params
 
+    const myIPAdress = getLocalIPAdress()
+
     const point = await knex('points').where('id', id).first()
 
     if (!point) {
@@ -38,7 +44,7 @@ class PointsController {
 
     const serializedPoint = {
       ...point,
-      image_url: `http://192.168.2.4:3333/uploads/${point.image}`
+      image_url: `http://${myIPAdress}:3333/uploads/${point.image}`
     }
 
     const items = await knex('items')
