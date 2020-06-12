@@ -56,7 +56,7 @@
 
 <br />
 
-**The fastest way to find the recyclable waste collection point near your home or localization.** With a simple click in your smartphone device, you will be able to help the natural environment around you. This simple (and awesome) attitude can transform and change since your self habits, ultil all the world.
+**The fastest way to find the recyclable waste collection point near your home or localization.** With a simple click in your smartphone device, you will be able to help the natural environment around you. This simple (and awesome) attitude can transform and change since your self habits, until all the world.
 
 <h1 id="built-with">Built With</h1>
 
@@ -189,8 +189,6 @@ Project Link: [https://github.com/your_username/repo_name](https://github.com/yo
 <br />
 
 _Made with &hearts; in Next Level Week. Enjoy it!_
-
-<br />
 
 [contributors-shield]: https://img.shields.io/github/contributors/cristianprochnow/Ecoleta.svg?style=flat
 [contributors-url]: https://github.com/cristianprochnow/Ecoleta/graphs/contributors
