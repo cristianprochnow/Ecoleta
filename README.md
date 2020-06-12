@@ -86,7 +86,14 @@ And more coming soon...
 
 <h2 id="installation">Installation</h2>
 
-1. Install all the packages
+<h3 id="server-installation">Server</h3>
+
+1. Enter `server` folder
+```sh
+cd server
+```
+
+2. Install all the packages
 ```shell
 # Node
 npm install
@@ -95,7 +102,7 @@ npm install
 yarn
 ```
 
-2. Start the database
+3. Start the database
 ```shell
 # Node
 npm run knex:migrate
@@ -104,7 +111,7 @@ npm run knex:migrate
 yarn knex:migrate
 ```
 
-3. Add data seed to database
+4. Add initial data seed to database
 ```shell
 # Node
 npm run knex:seed
@@ -113,7 +120,7 @@ npm run knex:seed
 yarn knex:seed
 ```
 
-4. Start the server (inside `server` folder)
+5. Start the server
 ```shell
 # Node
 npm run dev
@@ -122,7 +129,23 @@ npm run dev
 yarn dev
 ```
 
-5. Start the web interface (inside `web` folder)
+<h3 id="web-installation">Web</h3>
+
+1. Enter `web` folder
+```sh
+cd web
+```
+
+2. Install all the packages
+```shell
+# Node
+npm install
+
+# Yarn
+yarn
+```
+
+3. Start the web running
 ```shell
 # Node
 npm start
@@ -131,8 +154,27 @@ npm start
 yarn start
 ```
 
-6. Start the Expo app (inside `mobile` folder)
+<h3 id="mobile-installation">Mobile</h3>
+
+1. Enter `mobile` folder
+```sh
+cd mobile
+```
+
+2. Install all the packages
 ```shell
+# Node
+npm install
+
+# Yarn
+yarn
+```
+
+3. Start the Expo project
+```shell
+# Expo CLI
+expo start
+
 # Node
 npm start
 
