@@ -17,9 +17,10 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "husky":{
+  "husky": {
     "hooks": {
       "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
     }
-  }
+  },
+  "dependencies": {}
 }
