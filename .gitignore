@@ -1,5 +1,5 @@
+<<<<<<< HEAD
 node_modules/
-server/uploads/*.jpg
-server/uploads/*.jpeg
-server/uploads/*.png
-server/uploads/*.gif
+=======
+node_modules/
+>>>>>>> 9536ed065e7f25f5f8651edd4c07af1ad1fdb014

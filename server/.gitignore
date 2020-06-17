@@ -1,1 +1,8 @@
 node_modules
+
+src/database/database.sqlite
+
+uploads/*.jpg
+uploads/*.jpeg
+uploads/*.png
+uploads/*.gif
