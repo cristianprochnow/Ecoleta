@@ -105,3 +105,65 @@
   gap: 16px;
   list-style: none;
 }
+
+@media(max-width: 1024px) {
+  #page-create-point {
+    width: 100%;
+
+    margin: 0 auto;
+  }
+
+  #page-create-point header {
+    margin: 48px 24px 0 24px;
+  }
+}
+
+@media(max-width: 900px) {
+  #page-create-point header {
+    margin: 48px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #page-create-point header a {
+    display: none;
+  }
+
+  #page-create-point form legend {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 40px;
+  }
+
+  #page-create-point form {
+    margin: 0 auto;
+    padding: 24px;
+    background: #FFF;
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  #page-create-point form .field-group {
+    flex-direction: column;
+  }
+
+  #page-create-point form .field-group .field + .field {
+    margin: 0;
+  }
+
+  #page-create-point form .field-group input + input {
+    margin: 0;
+  }
+
+  .items-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    list-style: none;
+  }
+}
