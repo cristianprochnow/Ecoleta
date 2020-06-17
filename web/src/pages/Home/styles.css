@@ -83,7 +83,11 @@
   background: #2FB86E;
 }
 
-@media(max-width: 900px) {
+@media(max-width: 1024px) {
+  #page-home {
+    background: none;
+  }
+
   #page-home .content {
     align-items: center;
     text-align: center;
