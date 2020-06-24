@@ -1,6 +1,6 @@
 node_modules
 
-src/database/database.sqlite
+src/database/*.sqlite
 
 uploads/*.jpg
 uploads/*.jpeg
