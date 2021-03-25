@@ -226,7 +226,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <h1 id="contact">Contact</h1>
 
-Your Name - [![Linkedin][linkedin-shield]][linkedin-url]
+Cristian Prochnow - [![Linkedin][linkedin-shield]][linkedin-url]
 
 Project Link: [https://github.com/cristianprochnow/Ecoleta](https://github.com/cristianprochnow/Ecoleta)
 
